@@ -10,7 +10,7 @@ using Web_MenuDigital.Services;
 
 namespace Web_MenuDigital.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class BranchController : ApiController
     {
 

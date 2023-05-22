@@ -18,7 +18,8 @@ namespace Web_MenuDigital.Services
             NotFound = 3,
         }
 
-        public readonly string file = @"D:\\AngularProject\\Web_Digital_Menu\\Web_MenuDigital\\Web_MenuDigital\\data.txt";
+        
+        public readonly string file = AppDomain.CurrentDomain.BaseDirectory + @"log\\data.txt";
 
         public CrudResult WriteData(List<Branch> list)
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Web.Http;
+using Web_MenuDigital.FileUploadExtension;
 using Web_MenuDigital.Models;
 using Web_MenuDigital.Services;
 
@@ -11,7 +12,8 @@ namespace Web_MenuDigital.Repository
     
     public class BranchRepository
     {
-        public readonly string file = @"D:\\AngularProject\\Web_Digital_Menu\\Web_MenuDigital\\Web_MenuDigital\\data.txt";
+        public readonly string file = AppDomain.CurrentDomain.BaseDirectory + @"log\\data.txt";
+        public readonly string imageFolder = AppDomain.CurrentDomain.BaseDirectory +  @"log\";
         public enum RepositoryResult
         {
             created = 1,
@@ -26,6 +28,7 @@ namespace Web_MenuDigital.Repository
         public List<Branch> GetAllBranches() 
         {
             List<Branch> branchlist = new List<Branch>();
+            //FileStream f = new FileStream(file, FileMode.OpenOrCreate, FileAccess.Read);
             StreamReader reader = new StreamReader(file);
             var des_data = JsonSerializer.Deserialize<List<Branch>>(reader.ReadToEnd());
             branchlist = des_data;
@@ -46,6 +49,12 @@ namespace Web_MenuDigital.Repository
             }
             else
             {
+                if (!string.IsNullOrEmpty(branch.ImageBase64))
+                {
+                    var imageFile = ImageUploaderExtension.Base64ToImage(branch.ImageBase64);
+                    var imageName = Guid.NewGuid().ToString("N") + ".jpeg";
+                    imageFile.AddImageToServer(imageName, imageFolder);
+                }
                 List<Branch> branchlist = new List<Branch>();
                 StreamReader reader = new StreamReader(file);
                 var des_data = JsonSerializer.Deserialize<List<Branch>>(reader.ReadToEnd());
